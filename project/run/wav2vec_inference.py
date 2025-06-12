@@ -2,7 +2,7 @@
 from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
 
-__author__ = "Chanwoo Kim(chanwcom@gmail.com)"
+__author__ = "Se Hoon Kim(sehoon787@korea.ac.kr)"
 
 # Standard imports
 import os
@@ -13,7 +13,7 @@ from transformers import pipeline
 # Custom imports
 import sample_util
 
-db_top_dir = "D:/ku/1-2/XAI604_2025_spring/"
+db_top_dir = "D:/ku/1-2/XAI509_2025_spring/"
 test_top_dir = os.path.join(db_top_dir, "stop_music/music_test0")
 
 test_dataset = sample_util.make_dataset(test_top_dir)
@@ -21,7 +21,7 @@ test_dataset = sample_util.make_dataset(test_top_dir)
 transcriber = pipeline(
     "automatic-speech-recognition",
     model=
-    "D:/ku/1-2/XAI604_2025_spring/project/models/checkpoint-10000"
+    "D:/ku/1-2/XAI509_2025_spring/project/models/checkpoint-5000"
 )
 
 for data in test_dataset:

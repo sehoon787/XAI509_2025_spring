@@ -19,9 +19,9 @@ import numpy as np
 # Custom imports
 import sample_util
 
-db_top_dir = "C:\\Users\\Administrator\\Desktop\\ku\\1-2\\XAI604_2025_spring\\"
-train_top_dir = os.path.join(db_top_dir, "stop_music\\music_train")
-test_top_dir = os.path.join(db_top_dir, "stop_music\\music_test0")
+db_top_dir = "D:/ku/1-2/XAI509_2025_spring/"
+train_top_dir = os.path.join(db_top_dir, "stop_music/music_train")
+test_top_dir = os.path.join(db_top_dir, "stop_music/music_test0")
 processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
 
 train_dataset = sample_util.make_dataset(train_top_dir)
@@ -143,8 +143,8 @@ model = AutoModelForCTC.from_pretrained(
 # These control training hyperparameters and runtime behavior:
 training_args = TrainingArguments(
     # Directory to save model checkpoints and outputs.
-    output_dir="C:\\Users\\Administrator\\Desktop\\ku\\1-2"
-               "\\XAI604_2025_spring\\project\\models",
+    output_dir="D:/ku/1-2"
+               "/XAI509_2025_spring/project/models",
 
     # Batch size per device (GPU/CPU) for training.
     per_device_train_batch_size=40,
