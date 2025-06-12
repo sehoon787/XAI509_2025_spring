@@ -86,8 +86,8 @@
       <recent name="D:\ku\1-2\XAI509_2025_spring\data" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.create_chime4_webdataset">
-    <configuration name="create_chime4_webdataset" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.create_chime5_webdataset">
+    <configuration name="create_chime5_webdataset" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="XAI509_2025_spring" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -101,7 +101,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/project/tool/create_chime4_webdataset.py" />
+      <option name="SCRIPT_NAME" value="D:\ku\1-2\XAI509_2025_spring\project\tool\create_chime5_webdataset.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -181,7 +181,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.create_chime4_webdataset" />
+        <item itemvalue="Python.create_chime5_webdataset" />
         <item itemvalue="Python.decompress" />
         <item itemvalue="Python.wav2vec_finetuning" />
         <item itemvalue="Python.wav2vec_inference" />
