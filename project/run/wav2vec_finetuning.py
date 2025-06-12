@@ -20,8 +20,8 @@ import numpy as np
 import sample_util
 
 db_top_dir = "D:/ku/1-2/XAI509_2025_spring/"
-train_top_dir = os.path.join(db_top_dir, "stop_music/music_train")
-test_top_dir = os.path.join(db_top_dir, "stop_music/music_test0")
+train_top_dir = os.path.join(db_top_dir, "data/train")
+test_top_dir = os.path.join(db_top_dir, "data/dev")
 processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
 
 train_dataset = sample_util.make_dataset(train_top_dir)
@@ -206,5 +206,32 @@ trainer = Trainer(
     data_collator=data_collator,
     compute_metrics=compute_metrics,
 )
+
+# 학습 전 tokenizer 상태 점검
+print("✅ Vocab size:", len(processor.tokenizer.get_vocab()))
+print("✅ Sample vocab:", list(processor.tokenizer.get_vocab().items())[:10])
+print("✅ Pad token ID:", processor.tokenizer.pad_token_id)
+print("✅ UNK token ID:", processor.tokenizer.unk_token_id)
+
+# 디코딩 테스트용 예시 토큰 ID → 텍스트
+test_ids = [5, 8, 7, 23]  # E, O, A, (예시)
+decoded_test = processor.tokenizer.decode(test_ids)
+print("✅ Decode test:", decoded_test)
+
+# WebDataset 기반일 경우: next()로 label 샘플 점검
+print("라벨 디코딩 샘플:")
+train_iter = iter(train_dataset)
+for i in range(2):
+    try:
+        ex = next(train_iter)
+        label_ids = ex["labels"]
+        if isinstance(label_ids, torch.Tensor):
+            label_ids = label_ids.tolist()
+
+        print(f"Sample {i+1} - Label IDs:", label_ids)
+        print(f"Sample {i+1} - Decoded transcript:", processor.tokenizer.decode(label_ids))
+    except StopIteration:
+        print("더 이상 샘플이 없습니다.")
+        break
 
 trainer.train()

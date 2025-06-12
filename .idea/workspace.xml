@@ -6,13 +6,30 @@
   <component name="ChangeListManager">
     <list default="true" id="cfeb165a-19cc-46ee-a28e-7397352478ef" name="Changes" comment="init proj">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/project/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/resources/top.schema.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/run/sample_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/run/sample_util.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/run/wav2vec_finetuning.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/run/wav2vec_finetuning.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/run/wav2vec_inference.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/run/wav2vec_inference.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/tool/convert.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/tool/convert_to_flac.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/tool/create_librispeech_webdataset.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/tool/create_stop_webdataset.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/tool/create_webdataset.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/tool/random_line_selector.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stop_music/decompress.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/decompress.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -40,13 +57,15 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.create_chime4_webdataset.executor": "Run",
+    "Python.decompress.executor": "Run",
     "Python.wav2vec_finetuning.executor": "Run",
     "Python.wav2vec_inference.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "D:/ku/1-2/XAI509_2025_spring",
+    "last_opened_file_path": "D:/ku/1-2/XAI604_2025_spring",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -58,11 +77,62 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\ku\1-2\XAI509_2025_spring\project\tool" />
+      <recent name="D:\ku\1-2\XAI509_2025_spring\data\CHiME4" />
       <recent name="D:\ku\1-2\XAI509_2025_spring" />
       <recent name="D:\ku\1-2\XAI509_2025_spring\project" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\ku\1-2\XAI509_2025_spring\data" />
+    </key>
   </component>
-  <component name="RunManager" selected="Python.wav2vec_finetuning">
+  <component name="RunManager" selected="Python.create_chime4_webdataset">
+    <configuration name="create_chime4_webdataset" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="XAI509_2025_spring" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/project/tool" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/project/tool/create_chime4_webdataset.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="decompress" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="XAI509_2025_spring" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/decompress.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="wav2vec_finetuning" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="XAI509_2025_spring" />
       <option name="ENV_FILES" value="" />
@@ -111,6 +181,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.create_chime4_webdataset" />
+        <item itemvalue="Python.decompress" />
         <item itemvalue="Python.wav2vec_finetuning" />
         <item itemvalue="Python.wav2vec_inference" />
       </list>
@@ -134,7 +206,7 @@
       <updated>1749630383409</updated>
       <workItem from="1749630384567" duration="722000" />
       <workItem from="1749694598048" duration="7000" />
-      <workItem from="1749695824201" duration="646000" />
+      <workItem from="1749695824201" duration="12925000" />
     </task>
     <task id="LOCAL-00001" summary="init proj">
       <option name="closed" value="true" />
@@ -152,11 +224,22 @@
       <option name="project" value="LOCAL" />
       <updated>1749695985716</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="init proj">
+      <option name="closed" value="true" />
+      <created>1749696491444</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1749696491444</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.bat" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init proj" />
@@ -164,6 +247,8 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/XAI509_2025_spring$wav2vec_inference.coverage" NAME="wav2vec_inference Coverage Results" MODIFIED="1749696248893" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/project/run" />
-    <SUITE FILE_PATH="coverage/XAI509_2025_spring$wav2vec_finetuning.coverage" NAME="wav2vec_finetuning Coverage Results" MODIFIED="1749696458258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/project/run" />
+    <SUITE FILE_PATH="coverage/XAI509_2025_spring$create_chime4_webdataset.coverage" NAME="create_chime4_webdataset Coverage Results" MODIFIED="1749717017483" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/project/tool" />
+    <SUITE FILE_PATH="coverage/XAI509_2025_spring$wav2vec_finetuning.coverage" NAME="wav2vec_finetuning Coverage Results" MODIFIED="1749696484237" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/project/run" />
+    <SUITE FILE_PATH="coverage/XAI509_2025_spring$decompress.coverage" NAME="decompress Coverage Results" MODIFIED="1749713360468" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
   </component>
 </project>

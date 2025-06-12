@@ -2,7 +2,7 @@
 from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
 
-__author__ = "Chanwoo Kim(chanwcom@gmail.com)"
+__author__ = "Se Hoon Kim(sehoon787@korea.ac.kr)"
 
 # Standard library imports
 import glob
@@ -39,7 +39,10 @@ def preprocess_sample(sample: Dict) -> Dict:
         waveform[0], sampling_rate=sample_rate
     ).input_values[0]
 
-    text = sample["txt"].decode("utf-8")
+    '''
+    라벨 텍스트가 소문자 등 tokenizer의 vocab에 없는 문자를 포함해 대부분 <unk>로 처리되었기 때문에, 이를 방지하기 위해 대문자로 변환
+    '''
+    text = sample["txt"].decode("utf-8").upper()
     labels = processor.tokenizer(text).input_ids
 
     return {"input_values": input_values, "labels": labels}

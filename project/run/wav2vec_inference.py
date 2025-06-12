@@ -14,14 +14,14 @@ from transformers import pipeline
 import sample_util
 
 db_top_dir = "D:/ku/1-2/XAI509_2025_spring/"
-test_top_dir = os.path.join(db_top_dir, "stop_music/music_test0")
+test_top_dir = os.path.join(db_top_dir, "data/eval")
 
 test_dataset = sample_util.make_dataset(test_top_dir)
 
 transcriber = pipeline(
     "automatic-speech-recognition",
     model=
-    "D:/ku/1-2/XAI509_2025_spring/project/models/checkpoint-5000"
+    "D:/ku/1-2/XAI509_2025_spring/project/models/checkpoint-10000"
 )
 
 for data in test_dataset:

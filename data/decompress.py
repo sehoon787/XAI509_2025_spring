@@ -11,7 +11,7 @@ def decompress(file_path, save_path: str):
         print(f"Extracted shards to: {shard_dir}")
 
 if __name__ == '__main__':
-    decompress(file_path=r"C:\Users\Administrator\Desktop\ku\1-2\XAI604_2025_spring\stop_music\music_test0.tar.gz",
-               save_path="music_test0")
-    decompress(file_path=r"C:\Users\Administrator\Desktop\ku\1-2\XAI604_2025_spring\stop_music\music_train.tar.gz",
-               save_path="music_train")
+    decompress(file_path="./CHiME5/CHiME5_train.tar.gz", save_path="train")
+    decompress(file_path="./CHiME5/CHiME5_dev.tar.gz", save_path="dev")
+    decompress(file_path="./CHiME5/CHiME5_eval.tar.gz", save_path="eval")
+    decompress(file_path="./CHiME5/CHiME5_transcriptions.tar.gz", save_path="transcriptions")

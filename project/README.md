@@ -1,75 +1,66 @@
-# 1. Setup the environment.
+# CHiME-5 기반 WebDataset 음성 인식 및 발화 의도 분석용 데이터셋
+
+본 데이터셋은 CHiME-5 코퍼스를 기반으로 구성된 WebDataset 형식의 음성 인식 및 발화 의도 분석용 데이터셋입니다.  
+음성 발화 단위를 `start_time` 및 `end_time` 기준으로 segment하여 `.wav` 형식으로 저장하고, 그에 대응되는 전사 정보를 `.txt`로 함께 제공합니다.
+
+---
+
+## 📌 데이터셋 채택 이유
+
+- **CHiME-5**는 실제 가정 환경에서 녹음된 다인 대화 음성을 포함하며, 현실적인 노이즈 환경에서의 자동 음성 인식(ASR) 및 음성 이해(SLU)에 적합한 대표적인 벤치마크입니다.
+- 발화별 시간 정보가 상세하게 주어져 있어, **세밀한 단위의 발화 인식 및 태깅 학습에 적합**합니다.
+- 또한, 실제 사용자 간의 자연스러운 대화 흐름, 겹말(overlap), 비유창성(disfluency)이 존재하기 때문에 **컨텍스트 기반의 복합 모델 학습**에 효과적입니다.
 
 
-Create the Conda environment.
+---
 
-`conda create --name py3_10_hf python=3.10`
+## 🔍 샘플 구성
 
-Activate the Conda environment created just ago.
+각 `.tar` 파일(shard)은 WebDataset 포맷을 따르며, 하나의 샘플은 다음과 같이 구성됩니다:
 
-`conda activate py3_10_hf`
+| Key | 설명 |
+|-----|------|
+| `__key__` | 유니크 샘플 식별자 (UUID) |
+| `wav` | `.wav` 형식의 발화 오디오 (byte stream) |
+| `txt` | 대응되는 텍스트 전사 (str) |
 
+Python 예시:
 
-Install Pytorch.
+```python
+import webdataset as wds
 
-https://pytorch.org/get-started/locally/
-Check the CUDA version
-\
-`nvcc --version`
+dataset = (
+    wds.WebDataset("wds/train/shard-000000.tar")
+    .decode()
+    .to_tuple("wav", "txt")
+)
 
-Select the command at the bottom of the table, after seleting the right "Compute Platform"
-For example, if the CUDA version is 11.8, then run the following command:
-Note that torchdata is added.
+for audio, text in dataset:
+    print(text)  # 전사 출력
+```
 
+## 🧪 학습 및 추론 사용 방식
 
-`conda install pytorch torchvision torchaudio torchdata pytorch-cuda=11.8 -c pytorch -c nvidia`
-\
-`conda install tensorflow-cpu`
+| 용도 | 사용 split |
+|------|------------|
+| 모델 학습 (`trainer.train()`) | ✅ `train/` + `dev/` |
+| 성능 검증 (`eval_dataset`, WER 추적 등) | ✅ `dev/` |
+| 모델 추론 (예: test-time decoding) | ✅ `eval/` |
 
-Install HuggingFace **Transformers** and **Datasets**.
-\
-`pip install transformers[torch] datasets`
+- `train` 및 `dev` split은 모두 전사 라벨이 포함되어 있으며, 학습 및 검증 단계에 사용됩니다.
+- `dev`는 `eval_dataset`으로 할당되어 모델의 성능(WER 등)을 평가하고, `load_best_model_at_end` 기준이 됩니다.
+- `eval` split은 학습에 사용되지 않으며, **최종 디코딩 결과 평가 또는 예측 테스트**에 사용됩니다.
 
-SoundFile installation
-\
-`pip install soundfile`
+---
 
-WebDataset installation:
-\
-`pip install webdataset`
+## ⚙️ 전처리 및 생성 정보
 
-Librosa installtion
-\
-`conda install -c conda-forge librosa`
+- **원본 데이터셋**: [CHiME-5 공식 사이트](https://www.chimechallenge.org/datasets/chime5)
+- **오디오 segment 기준**: `start_time` 및 `end_time` (JSON 기반)
+- **사용 도구**:
+  - `pydub` (오디오 segment 추출)
+  - `webdataset` (샤드 포맷 저장)
+  - `transformers`, `evaluate` (Hugging Face 기반 학습)
+- **변환 스크립트**: `create_chime5_webdataset.py`
 
-For speech recognition evaluation
-\
-`pip install evaluate jiwer`
-
-Reference:
-https://huggingface.co/docs/datasets/v1.11.0/installation.html
-
-
-
-# 2. STOP dataset
-
-We used the music portion of the STOP train set.
-However, we removed 00011525.wav, since the transcript of it seems to contain an error: "play song TITLE_MEDIA on spotify"
-You may download the compressed sharded WebDataset from the following directory:
-
-https://drive.google.com/file/d/1myqysY_FkaynOfkORBA5xyw4FRJ_OxuW/view?usp=drive_link
-
-So the total number of utterances is reduced from 11563 to 11562.
-
-Please note that you should decompress tar.gz files only once. We will use 10 sharded *.tar file for training and eval.
-
-For the test set, I randomly chose 300 utterances from `test_0/music_test`. You may download the compressed sharded WebDataset.
-https://drive.google.com/file/d/1j2z8xb4V5zTb6ChJafZZp8Gtt61_ma_1/view?usp=drive_link
-
-As before, you should decompress tar.gz files only once. We will use 10 sharded *.tar file for training and eval.
-
-# 3. Run the scripts in the "run" directory
-
-If GPU0 is available, then set the following configuration variables:
-\
-`export NCCL_P2P_DISABLE=1; export NCCL_IB_DISABLE=1; export CUDA_VISIBLE_DEVICES=0`
+---
