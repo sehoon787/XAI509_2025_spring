@@ -1,14 +1,14 @@
-import os
 import json
 import uuid
 from pathlib import Path
 from tqdm import tqdm
 from io import BytesIO
 from pydub import AudioSegment
+import soundfile as sf
 import webdataset as wds
 
 # 사용자 지정 경로
-DATA_TYPE = "train" # train, dev, eval
+DATA_TYPE = "train"     # train, dev, eval
 DATA_ROOT = Path("D:/ku/1-2/XAI509_2025_spring/data/CHiME5")
 AUDIO_ROOT = DATA_ROOT / "train" / "CHiME5" / "audio" / DATA_TYPE
 TRANS_ROOT = DATA_ROOT / "transcriptions" / "CHiME5" / "transcriptions" / DATA_TYPE
@@ -25,12 +25,15 @@ def time_to_sec(t: str) -> float:
 
 # 오디오 슬라이스 함수
 def extract_audio_segment(wav_path, start_time, end_time):
-    start_ms = int(start_time * 1000)
-    end_ms = int(end_time * 1000)
-    audio = AudioSegment.from_wav(wav_path)[start_ms:end_ms]
-    buffer = BytesIO()
-    audio.export(buffer, format="wav")
-    return buffer.getvalue()
+    with sf.SoundFile(str(wav_path), 'r') as f:
+        sr = f.samplerate
+        start_frame = int(start_time * sr)
+        end_frame = int(end_time * sr)
+        f.seek(start_frame)
+        frames = f.read(end_frame - start_frame)
+        buf = BytesIO()
+        sf.write(buf, frames, sr, format='WAV')
+        return buf.getvalue()
 
 # 샘플 생성
 def generate_samples():
@@ -51,6 +54,8 @@ def generate_samples():
                 start = time_to_sec(utt["start_time"][MIC_ID])
                 end = time_to_sec(utt["end_time"][MIC_ID])
                 text = utt.get("words", "").strip()
+                if not text:
+                    continue
                 audio_bytes = extract_audio_segment(wav_path, start, end)
 
                 uid = f"{session_id}_{MIC_ID}_{str(uuid.uuid4())[:8]}"
