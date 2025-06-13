@@ -1,3 +1,15 @@
+## 프로젝트 디렉토리 구성
+
+| 경로 | 설명 |
+|------|------|
+| `data/decompress.py` | CHiME-5 데이터셋 `.tar.gz` 파일 압축 해제 스크립트 |
+| `project/run/sample_util.py` | 전처리 및 데이터셋 구성 유틸리티 |
+| `project/run/wav2vec_finetune.py` | Wav2Vec 2.0 모델 파인튜닝 스크립트 |
+| `project/run/wav2vec_inference.py` | Wav2Vec 2.0 추론(inference) 스크립트 |
+| `project/tool/check_tar_contents.py` | `.tar` 파일 내 `wav`, `txt` 포맷 검증 도구 |
+| `project/tool/create_chime5_webdataset.py` | CHiME-5 Raw 데이터를 WebDataset 포맷으로 변환 |
+| `project/models/` | 학습된 모델 저장 디렉토리 |
+
 # CHiME-5 기반 WebDataset 음성 인식 및 발화 의도 분석용 데이터셋
 
 본 데이터셋은 CHiME-5 코퍼스를 기반으로 구성된 WebDataset 형식의 음성 인식 및 발화 의도 분석용 데이터셋입니다.  
