@@ -9,6 +9,7 @@ import glob
 import io
 import os
 from typing import Dict
+import re
 
 # Third-party imports
 import torchaudio
@@ -17,6 +18,14 @@ from transformers import AutoProcessor
 
 # Define processor globally (assumed to be initialized elsewhere in actual code)
 processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
+
+# 전역 리스트: 전처리에서 제외된 샘플들의 UID 기록
+skipped_uids = []
+
+# 비음성 메타태그 제거 함수
+def clean_text(text: str) -> str:
+    # 예: [laughs], [noise], [cough] 등의 메타태그 제거
+    return re.sub(r"\[[^\]]+\]", "", text).strip()
 
 def preprocess_sample(sample: Dict) -> Dict:
     """Preprocess a single raw sample from the WebDataset.
@@ -34,18 +43,48 @@ def preprocess_sample(sample: Dict) -> Dict:
             - 'input_values': processed audio feature tensor.
             - 'labels': list of token IDs corresponding to the transcript.
     """
-    waveform, sample_rate = torchaudio.load(io.BytesIO(sample["wav"]))
-    input_values = processor.feature_extractor(
-        waveform[0], sampling_rate=sample_rate
-    ).input_values[0]
+    try:
+        # Load waveform from raw bytes
+        waveform, sample_rate = torchaudio.load(io.BytesIO(sample["wav"]))
 
-    '''
-    라벨 텍스트가 소문자 등 tokenizer의 vocab에 없는 문자를 포함해 대부분 <unk>로 처리되었기 때문에, 이를 방지하기 위해 대문자로 변환
-    '''
-    text = sample["txt"].decode("utf-8").upper()
-    labels = processor.tokenizer(text).input_ids
+        # Mono channel conversion: average if multichannel
+        if waveform.dim() == 2 and waveform.size(0) > 1:
+            waveform = waveform.mean(dim=0, keepdim=True)
 
-    return {"input_values": input_values, "labels": labels}
+        waveform = waveform.squeeze()
+
+        # 너무 짧은 오디오는 학습 불가능하므로 필터링
+        if waveform.numel() < sample_rate * 0.1:  # 약 0.1초 미만
+            raise ValueError(f"Audio too short: {waveform.numel()} samples")
+
+        # 텍스트 디코딩 및 대문자 변환
+        raw_text = sample["txt"].decode("utf-8").upper()
+
+        '''
+        라벨 텍스트가 소문자 등 tokenizer의 vocab에 없는 문자를 포함해 대부분 <unk>로 처리되었기 때문에, 이를 방지하기 위해 대문자로 변환
+        '''
+        # 메타태그 제거
+        text = clean_text(raw_text)
+
+        # 메타태그 제거 후도 텍스트가 비어 있다면 필터링
+        if len(text) < 1:
+            raise ValueError("Transcript empty after removing nonverbal tags")
+
+        # Tokenize
+        labels = processor.tokenizer(text).input_ids
+
+        # Feature extraction (e.g., Wav2Vec2 input)
+        input_values = processor.feature_extractor(
+            waveform, sampling_rate=sample_rate
+        ).input_values[0]
+
+        return {"input_values": input_values, "labels": labels}
+
+    except Exception as e:
+        # sample에 '__key__'가 있다면 해당 UID 기록
+        if "__key__" in sample:
+            skipped_uids.append(sample["__key__"])
+        return None
 
 
 def make_dataset(data_dir: str) -> wds.WebDataset:
@@ -67,9 +106,17 @@ def make_dataset(data_dir: str) -> wds.WebDataset:
 
     dataset = (
         wds.WebDataset(shard_urls)
-        # wds.WebDataset(glob.glob(os.path.join(data_dir, "shard-*.tar")))
-        .to_tuple("wav", "txt")
-        .map(lambda sample: {"wav": sample[0], "txt": sample[1]})
+        .to_tuple("wav", "txt", "__key__")
+        .map(lambda sample: {"wav": sample[0], "txt": sample[1], "__key__": sample[2]})
         .map(preprocess_sample)
+        .select(lambda x: x is not None)
     )
+
+    # 전처리 후 제외된 UID들을 파일로 저장
+    if skipped_uids:
+        with open("skipped_samples.txt", "w", encoding="utf-8") as f:
+            for uid in skipped_uids:
+                f.write(uid + "\n")
+        print(f"[INFO] 제외된 샘플 {len(skipped_uids)}개를 skipped_samples.txt에 저장했습니다.")
+
     return dataset
