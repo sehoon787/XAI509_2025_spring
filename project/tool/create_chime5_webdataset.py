@@ -6,9 +6,9 @@ import soundfile as sf
 import webdataset as wds
 
 # 설정
-DATA_TYPE = "train"  # train, dev, eval
+DATA_TYPE = "dev"  # train, dev, eval
 DATA_ROOT = Path("D:/ku/1-2/XAI509_2025_spring/data/CHiME5")
-AUDIO_ROOT = DATA_ROOT / "train" / "CHiME5" / "audio" / DATA_TYPE
+AUDIO_ROOT = DATA_ROOT / DATA_TYPE / "CHiME5" / "audio" / DATA_TYPE
 TRANS_ROOT = DATA_ROOT / "transcriptions" / "CHiME5" / "transcriptions" / DATA_TYPE
 OUTPUT_ROOT = Path(f"D:/ku/1-2/XAI509_2025_spring/data/{DATA_TYPE}")
 
