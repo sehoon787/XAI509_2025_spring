@@ -10,7 +10,7 @@ DATA_TYPE = "train"  # train, dev, eval
 DATA_ROOT = Path("D:/ku/1-2/XAI509_2025_spring/data/CHiME5")
 AUDIO_ROOT = DATA_ROOT / "train" / "CHiME5" / "audio" / DATA_TYPE
 TRANS_ROOT = DATA_ROOT / "transcriptions" / "CHiME5" / "transcriptions" / DATA_TYPE
-OUTPUT_ROOT = Path(f"D:/ku/1-2/XAI509_2025_spring/data/{DATA_TYPE}_allmic")
+OUTPUT_ROOT = Path(f"D:/ku/1-2/XAI509_2025_spring/data/{DATA_TYPE}")
 
 MIC_IDS = ["U01", "U02", "U03", "U04", "U05", "U06"]
 CHANNELS = ["CH1", "CH2", "CH3", "CH4"]  # 일부 MIC는 2채널(binaural)만 존재
