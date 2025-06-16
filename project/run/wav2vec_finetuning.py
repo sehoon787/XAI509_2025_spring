@@ -21,7 +21,7 @@ import sample_util
 
 db_top_dir = "D:/ku/1-2/XAI509_2025_spring/"
 train_top_dir = os.path.join(db_top_dir, "data/train")
-test_top_dir = os.path.join(db_top_dir, "data/dev")
+test_top_dir = os.path.join(db_top_dir, "data/test")
 processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
 
 train_dataset = sample_util.make_dataset(train_top_dir)
@@ -147,7 +147,7 @@ training_args = TrainingArguments(
                "/XAI509_2025_spring/project/models",
 
     # Batch size per device (GPU/CPU) for training.
-    per_device_train_batch_size=40,
+    per_device_train_batch_size=24,
 
     # Number of batches to accumulate gradients over before updating model weights.
     gradient_accumulation_steps=2,
@@ -177,7 +177,7 @@ training_args = TrainingArguments(
     save_steps=5000,
 
     # Run evaluation every N steps during training.
-    eval_steps=100,
+    eval_steps=500,
 
     # Log training progress every N steps.
     logging_steps=25,
@@ -218,20 +218,28 @@ test_ids = [5, 8, 7, 23]  # E, O, A, (예시)
 decoded_test = processor.tokenizer.decode(test_ids)
 print("✅ Decode test:", decoded_test)
 
-# WebDataset 기반일 경우: next()로 label 샘플 점검
-print("라벨 디코딩 샘플:")
-train_iter = iter(train_dataset)
-for i in range(2):
-    try:
-        ex = next(train_iter)
-        label_ids = ex["labels"]
-        if isinstance(label_ids, torch.Tensor):
-            label_ids = label_ids.tolist()
 
-        print(f"Sample {i+1} - Label IDs:", label_ids)
-        print(f"Sample {i+1} - Decoded transcript:", processor.tokenizer.decode(label_ids))
-    except StopIteration:
-        print("더 이상 샘플이 없습니다.")
-        break
+def check_sample(sample_iter, count=10):
+    for i in range(count):
+        try:
+            ex = next(sample_iter)
+            label_ids = ex["labels"]
+            if isinstance(label_ids, torch.Tensor):
+                label_ids = label_ids.tolist()
+
+            print(f"Sample {i+1} - Label IDs:", label_ids)
+            print(f"Sample {i+1} - Decoded transcript:", processor.tokenizer.decode(label_ids))
+        except StopIteration:
+            print("더 이상 샘플이 없습니다.")
+            break
+
+# WebDataset 기반일 경우: next()로 label 샘플 점검
+print("라벨 Train 디코딩 샘플:")
+train_iter = iter(train_dataset)
+check_sample(train_iter)
+
+print("라벨 Test 디코딩 샘플:")
+test_iter = iter(test_dataset)
+check_sample(test_iter)
 
 trainer.train()

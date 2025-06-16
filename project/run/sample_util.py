@@ -55,7 +55,7 @@ def preprocess_sample(sample: Dict) -> Dict:
         waveform = waveform.squeeze()
 
         # 너무 짧은 오디오는 학습 불가능하므로 필터링
-        if waveform.numel() < sample_rate * 0.1:  # 약 0.1초 미만
+        if waveform.numel() < sample_rate * 0.3:  # 약 0.3초 미만
             raise ValueError(f"Audio too short: {waveform.numel()} samples")
 
         # 텍스트 디코딩 및 대문자 변환
