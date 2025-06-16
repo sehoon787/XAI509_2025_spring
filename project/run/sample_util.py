@@ -24,8 +24,9 @@ skipped_uids = []
 
 # 비음성 메타태그 제거 함수
 def clean_text(text: str) -> str:
-    # 예: [laughs], [noise], [cough] 등의 메타태그 제거
-    return re.sub(r"\[[^\]]+\]", "", text).strip()
+    text = re.sub(r"\[[^\]]+\]", "", text).strip()  # 메타태그 제거
+    text = re.sub(r"[^A-Z |]", "", text.upper())    # 허용된 문자만 유지 (A~Z, 공백, |)
+    return text
 
 def preprocess_sample(sample: Dict) -> Dict:
     """Preprocess a single raw sample from the WebDataset.
@@ -72,6 +73,8 @@ def preprocess_sample(sample: Dict) -> Dict:
 
         # Tokenize
         labels = processor.tokenizer(text).input_ids
+        if processor.tokenizer.unk_token_id in labels:
+            raise ValueError("UNK token detected in label")
 
         # Feature extraction (e.g., Wav2Vec2 input)
         input_values = processor.feature_extractor(
